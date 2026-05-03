@@ -80,3 +80,75 @@ curl -X POST http://localhost:3000/users/register \
 ## Notes
 - The password is hashed before storing (bcrypt). The created `user` object returned will not include the plaintext password (password field is stored with `select:false` in the schema).
 
+---
+
+# Login User — POST /users/login
+
+## Description
+Authenticates an existing user. Validates credentials and returns a JWT plus the user object on success.
+
+## Endpoint
+- Method: POST
+- URL: /users/login
+- Headers: `Content-Type: application/json`
+
+## Validation rules
+- `email`: must be a valid email
+- `password`: required, minimum 6 characters
+
+## Request body (JSON)
+```json
+{
+  "email": "john@example.com",
+  "password": "secret123"
+}
+```
+
+## Responses
+
+- 200 OK
+  - Description: Authentication successful. Returns a JWT and the user object (password excluded).
+  - Example body:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "_id": "642c1f2b9a1e4d3f2c0a1b2c",
+    "fullname": { "firstname": "John", "lastname": "Doe" },
+    "email": "john@example.com",
+    "socketId": null,
+    "__v": 0
+  }
+}
+```
+
+- 400 Bad Request
+  - Description: Validation failed for input fields.
+  - Example body:
+
+```json
+{ "errors": [ { "msg": "Invalid Email", "param": "email", "location": "body" } ] }
+```
+
+- 401 Unauthorized
+  - Description: Invalid credentials (email not found or password mismatch).
+  - Example body:
+
+```json
+{ "message": "Invalid email or password" }
+```
+
+- 500 Internal Server Error
+  - Description: Unexpected server or database error.
+  - Example body:
+
+```json
+{ "message": "Internal Server Error" }
+```
+
+## Example (curl)
+curl -X POST http://localhost:3000/users/login \
+-H "Content-Type: application/json" \
+-d '{"email":"john@example.com","password":"secret123"}'
+
