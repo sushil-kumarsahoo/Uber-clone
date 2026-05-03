@@ -1,6 +1,7 @@
 import captainModel from "../models/captain.model.js";
 import { createCaptain } from "../services/captain.service.js";
 import { validationResult } from "express-validator";
+import blackListTokenModel from "../models/blacklistToken.model.js";
 
 
 export const registerCaptain = async(req,res,next) => {
@@ -57,4 +58,18 @@ export const loginCaptain = async(req,res,next) => {
      res.cookie('token',token);
 
      res.status(200).json({token,captain})
+}
+
+export const getCaptainProfile = async (req,res,next) => {
+    res.status(200).json(req.captain);
+}
+
+export const logoutCaptain = async(req,res,next) => { 
+    const token = req.cookies.token || req.headers.authorization;
+    //console.log("TOKEN IN LOGOUT:", token);
+    const result = await blackListTokenModel.create({token});
+    //console.log("BLACKLIST INSERT RESULT:", result);
+    res.clearCookie('token');
+
+    res.status(200).json({ message: 'Logged out'});
 }

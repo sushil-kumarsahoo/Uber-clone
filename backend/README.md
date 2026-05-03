@@ -331,4 +331,140 @@ curl -X POST http://localhost:3000/captains/register \
   -d '{"fullname":{"firstname":"Jane","lastname":"Rider"},"email":"jane.captain@example.com","password":"secret123","vehicle":{"color":"Blue","plate":"ABC-123","capacity":4,"vehicleType":"car"}}'
 ```
 
+---
+
+# Captain Auth & Profile
+
+## Captain Login — POST /captains/login
+
+### Description
+Authenticate a captain and return a JWT and captain object. Validates credentials and sets a cookie named `token` on success.
+
+### Endpoint
+- Method: POST
+- URL: /captains/login
+- Headers: `Content-Type: application/json`
+
+### Validation rules
+- `email`: must be a valid email
+- `password`: required, minimum 6 characters
+
+### Request body (JSON)
+```json
+{
+  "email": "jane.captain@example.com",
+  "password": "secret123"
+}
+```
+
+### Responses
+
+- 200 OK
+  - Description: Authentication successful. Returns `token` and `captain`.
+  - Example body:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "_id": "642c2a4f9a1e4d3f2c0a1b3d",
+    "fullname": { "firstname": "Jane", "lastname": "Rider" },
+    "email": "jane.captain@example.com",
+    "vehicle": { "color": "Blue", "plate": "ABC-123", "capacity": 4, "vehicleType": "car" },
+    "status": "inactive",
+    "socketId": null,
+    "__v": 0
+  }
+}
+```
+
+- 400 Bad Request
+  - Description: Validation failed.
+  - Example body: `{ "errors": [ ... ] }`
+
+- 401 Unauthorized
+  - Description: Invalid credentials.
+  - Example body: `{ "message": "Invalid email or password" }`
+
+- 500 Internal Server Error
+  - Description: Unexpected server/database error.
+
+### Example (curl)
+```bash
+curl -X POST http://localhost:3000/captains/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"jane.captain@example.com","password":"secret123"}'
+```
+
+## Captain Profile — POST /captains/profile
+
+### Description
+Returns the authenticated captain's profile. Requires a valid JWT (cookie `token` or `Authorization: Bearer <token>`). Note: this route is implemented as `POST /profile` in the routes for captains.
+
+### Endpoint
+- Method: POST
+- URL: /captains/profile
+- Auth: required (`authCaptain` middleware)
+
+### Headers
+- `Authorization: Bearer <token>` OR cookie `token=<jwt>`
+
+### Responses
+
+- 200 OK
+  - Description: Returns authenticated captain object.
+  - Example body:
+
+```json
+{
+  "_id": "642c2a4f9a1e4d3f2c0a1b3d",
+  "fullname": { "firstname": "Jane", "lastname": "Rider" },
+  "email": "jane.captain@example.com",
+  "vehicle": { "color": "Blue", "plate": "ABC-123", "capacity": 4, "vehicleType": "car" },
+  "status": "inactive",
+  "socketId": null,
+  "__v": 0
+}
+```
+
+- 401 Unauthorized
+  - Example body: `{ "message": "Unauthorized" }`
+
+- 500 Internal Server Error
+  - Example body: `{ "message": "Internal Server Error" }`
+
+### Example (curl)
+```bash
+curl -X POST http://localhost:3000/captains/profile \
+  -H "Authorization: Bearer <token>"
+```
+
+## Captain Logout — POST /captains/logout
+
+### Description
+Blacklists the current token and clears the cookie. Requires authentication.
+
+### Endpoint
+- Method: POST
+- URL: /captains/logout
+- Auth: required (`authCaptain` middleware)
+
+### Responses
+
+- 200 OK
+  - Example body: `{ "message": "Logged out" }`
+
+- 401 Unauthorized
+  - Example body: `{ "message": "Unauthorized" }`
+
+- 500 Internal Server Error
+  - Example body: `{ "message": "Internal Server Error" }`
+
+### Example (curl)
+```bash
+curl -X POST http://localhost:3000/captains/logout \
+  -H "Authorization: Bearer <token>"
+```
+
+
 
