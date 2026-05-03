@@ -1,0 +1,82 @@
+# Backend API Documentation
+
+### Register User — POST /users/register
+
+## Description
+Registers a new user account. Validates input, hashes the password, creates the user in MongoDB, and returns an auth token plus the created user object.
+
+## Endpoint
+- Method: POST
+- URL: /users/register
+- Headers: `Content-Type: application/json`
+
+## Validation rules
+- `email`: must be a valid email
+- `fullname.firstname`: required, minimum 3 characters
+- `password`: required, minimum 6 characters
+
+## Request body (JSON)
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john@example.com",
+  "password": "secret123"
+}
+```
+
+## Example Responses
+
+- 200 OK
+  - Description: User created successfully. Returns a JWT and the created user object (password excluded).
+  - Example body:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "_id": "642c1f2b9a1e4d3f2c0a1b2c",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "socketId": null,
+    "__v": 0
+  }
+}
+```
+
+- 400 Bad Request
+  - Description: Validation failed for input fields. Returns an array of validation error objects.
+  - Example body:
+
+```json
+{
+  "errors": [
+    { "msg": "Invalid Email", "param": "email", "location": "body" },
+    { "msg": "first name must be at least 3 characters long", "param": "fullname.firstname", "location": "body" }
+  ]
+}
+```
+
+- 500 Internal Server Error
+  - Description: Unexpected server or database error.
+  - Example body:
+
+```json
+{
+  "message": "Internal Server Error"
+}
+```
+
+## Example (curl)
+curl -X POST http://localhost:3000/users/register \
+-H "Content-Type: application/json" \
+-d '{"fullname":{"firstname":"John","lastname":"Doe"},"email":"john@example.com","password":"secret123"}'
+
+## Notes
+- The password is hashed before storing (bcrypt). The created `user` object returned will not include the plaintext password (password field is stored with `select:false` in the schema).
+
