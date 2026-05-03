@@ -1,10 +1,10 @@
-import dotenv from "dotenv"
-dotenv.config()
+import 'dotenv/config'; 
 import cors from 'cors';
 import express from 'express';
 const app = express();
 import connectToDb from './db/db.js';
-import useRouter  from "./routes/user.routes.js";
+import useRoutes  from "./routes/user.routes.js";
+import captainRoutes from './routes/captain.routes.js'
 import cookieParser from 'cookie-parser';
 
 
@@ -19,7 +19,8 @@ app.get('/', (req,res) => {
     res.send('hello world');
 });
 
-app.use('/users',useRouter);
+app.use('/users',useRoutes);
+app.use('/captains',captainRoutes);
 
 
 export default app;

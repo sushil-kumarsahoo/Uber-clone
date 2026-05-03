@@ -249,3 +249,86 @@ curl -X GET http://localhost:3000/users/logout \
   -H "Authorization: Bearer <token>"
 ```
 
+---
+
+# Captain Routes
+
+## Register Captain — POST /captains/register
+
+### Description
+Registers a new captain (driver) account. Validates input, hashes the password, creates the captain in MongoDB, and returns an auth token plus the created captain object.
+
+### Endpoint
+- Method: POST
+- URL: /captains/register
+- Headers: `Content-Type: application/json`
+
+### Validation rules
+- `email`: must be a valid email
+- `fullname.firstname`: required, minimum 3 characters
+- `password`: required, minimum 6 characters
+- `vehicle.color`: required, minimum 3 characters
+- `vehicle.plate`: required, minimum 3 characters
+- `vehicle.capacity`: required, integer >= 1
+- `vehicle.vehicleType`: required, one of `car`, `motorcycle`, `auto`
+
+### Request body (JSON)
+```json
+{
+  "fullname": { "firstname": "Jane", "lastname": "Rider" },
+  "email": "jane.captain@example.com",
+  "password": "secret123",
+  "vehicle": {
+    "color": "Blue",
+    "plate": "ABC-123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Responses
+
+- 201 Created
+  - Description: Captain created successfully. Returns a JWT and the created captain object (password excluded).
+  - Example body:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "_id": "642c2a4f9a1e4d3f2c0a1b3d",
+    "fullname": { "firstname": "Jane", "lastname": "Rider" },
+    "email": "jane.captain@example.com",
+    "vehicle": { "color": "Blue", "plate": "ABC-123", "capacity": 4, "vehicleType": "car" },
+    "status": "inactive",
+    "socketId": null,
+    "__v": 0
+  }
+}
+```
+
+- 400 Bad Request
+  - Description: Validation failed or captain already exists.
+  - Example body:
+
+```json
+{ "errors": [ { "msg": "Invalid Email", "param": "email", "location": "body" } ] }
+```
+
+- 500 Internal Server Error
+  - Description: Unexpected server or database error.
+  - Example body:
+
+```json
+{ "message": "Internal Server Error" }
+```
+
+### Example (curl)
+```bash
+curl -X POST http://localhost:3000/captains/register \
+  -H "Content-Type: application/json" \
+  -d '{"fullname":{"firstname":"Jane","lastname":"Rider"},"email":"jane.captain@example.com","password":"secret123","vehicle":{"color":"Blue","plate":"ABC-123","capacity":4,"vehicleType":"car"}}'
+```
+
+
