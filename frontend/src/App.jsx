@@ -2,7 +2,7 @@ import './App.css'
 import { Routes,Route } from 'react-router-dom'
 import Home from './pages/Home'
 import UserSignup from './pages/UserSignup'
-import UserLogin from './pages/userLogin'
+import UserLogin from './pages/UserLogin'
 import CaptainLogin from './pages/CaptainLogin'
 import CaptainSignup from './pages/CaptainSignup'
 function App() {
