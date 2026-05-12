@@ -11,7 +11,6 @@ const UserSignup = () => {
   // const [userData, setUserData] = useState({});
 
   const navigate = useNavigate();
-
   const { user, setUser } = useContext(UserDataContext);
 
   const submitHandler = async (e) => {
@@ -31,7 +30,8 @@ const UserSignup = () => {
     );
 
     if (response.status === 201) {
-      const data = response.data;
+      const data = response.data
+      
 
       setUser(data.user);
       localStorage.setItem("token", data.token);

@@ -12,9 +12,9 @@ export const registerUser = async (req,res,next) => {
 //    console.log(req.body)
     const {fullname, email, password } = req.body;
 
-    const isUserAlraedyExist = await user.findOne({ email });
+    const isUserAlreadyExist = await userModel.findOne({ email });
     
-    if(isUserAlraedyExist){
+    if(isUserAlreadyExist){
         return res.status(400).json({ message:'User already exist'});
     }
 
@@ -62,10 +62,15 @@ export const getUserProfile = async (req,res,next) => {
 }
 
 export const logoutUser = async(req,res,next) => { 
-    const token = req.cookies.token || req.headers.authorization;
+    try{
+          const token = req.cookies.token || req.headers.authorization;
     //console.log("TOKEN IN LOGOUT:", token);
     const result = await blackListTokenModel.create({token});
     //console.log("BLACKLIST INSERT RESULT:", result);
+    } catch(err){
+
+    }
+
     res.clearCookie('token');
 
     res.status(200).json({ message: 'Logged out'});

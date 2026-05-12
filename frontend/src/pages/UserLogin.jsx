@@ -6,11 +6,10 @@ import axios from "axios";
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [userData, setUserData] = useState({});
-
   const { user, setUser } = useContext(UserDataContext);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     if (token) {
       navigate("/home");
@@ -19,7 +18,6 @@ const UserLogin = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     const userData = {
       email: email,
       password: password,
