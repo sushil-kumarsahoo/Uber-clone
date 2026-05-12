@@ -14,7 +14,7 @@ const CaptainSignup = () => {
   setUserData({
       fullName:{
         firstName:firstName,
-        laststName:laststName
+        lastName:laststName
       },
       email:email,
       password:password,
@@ -56,7 +56,7 @@ const CaptainSignup = () => {
          onChange={(e)=>{
           setPassword(e.target.value)
          }}/>
-        <button className="bg-[#111] text-white font-semibold mb-7 rounded px-4 py-2 w-full text-lg placeholder:text-sm">Login</button>
+        <button className="bg-[#111] text-white font-semibold mb-7 rounded px-4 py-2 w-full text-lg placeholder:text-sm">Register</button>
       </form>
        <p className="text-center">Already have an account? <Link to='/captain-login' className="mb-3 text-blue-600 underline">Login here</Link> </p>
       </div>
