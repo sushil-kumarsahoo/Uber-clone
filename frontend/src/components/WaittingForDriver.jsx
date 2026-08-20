@@ -1,16 +1,22 @@
 
-const ConfirmRide = (props) => {
+const WaittingForDriver = () => {
   return (
     <div>
-        <h5 className="p-3 text-center w-[93%] absolute top-0" onClick={()=>{
-            props.setConfirmRidePanel(false)
+       <h5 className="p-3 text-center w-[93%] absolute top-0" onClick={()=>{
+         
           }}><i className="text-3xl text-gray-200 ri-arrow-down-s-line"></i></h5>
 
-          <h2 className="text-2xl font-semibold mb-4">Confirm your ride</h2>
+         <div className="flex items-center justify-between ">
+             <img className="h-25" src="https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/v1.1/UberX_v1.png" alt="" /> 
+             <div className="text-right">
+              <h2 className="text-lg font-medium ">Sushil</h2>
+              <h4 className="text-xl font-semibold -mt-1 -mb-1">OD22 56 78</h4>
+              <p className="text-sm text-gray-600">Swift Dezire</p>
+             </div>
+
+         </div>
 
           <div className="flex gap-2 justify-between items-center flex-col">
-            <img className="h-30" src="https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/v1.1/UberX_v1.png" alt="" /> 
-
             <div className="w-full mt-5">
                 <div className="flex items-center gap-2 p-2 border-b border-gray-200">
                     <i className=" text-lg ri-map-pin-line"></i>
@@ -34,14 +40,9 @@ const ConfirmRide = (props) => {
                     </div>
                 </div>
             </div>
-
-            <button onClick={()=>{
-                props.setVehicleFound(true)
-                props.setConfirmRidePanel(false)
-            }} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg" >Confirm</button>
             </div>
     </div>
   )
 }
 
-export default ConfirmRide
+export default WaittingForDriver
