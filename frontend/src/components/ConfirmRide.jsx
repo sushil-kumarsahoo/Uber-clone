@@ -3,7 +3,6 @@ const ConfirmRide = () => {
   return (
     <div>
         <h5 className="p-3 text-center w-[93%] absolute top-0" onClick={()=>{
-            props.setVehiclePanelOpen(false)
           }}><i className="text-3xl text-gray-200 ri-arrow-down-s-line"></i></h5>
 
           <h2 className="text-2xl font-semibold mb-4">Confirm your ride</h2>
