@@ -1,21 +1,12 @@
-import { useState } from "react"
 import { Link } from "react-router-dom"
-
-const ConfirmRidePopup = (props) => {
-
-    const [otp,setOtp] = useState('')
-
-    const submitHandler = (e) => {
-        e.preventDefault()
-    }
-
+const FinishRide = (props) => {
     return (
         <div>
             <h5 className="p-3 text-center w-[93%] absolute top-0" onClick={() => {
-                props.setConfirmRidePopupPanel(false)
+             props.setFinishRidePanel(false)
             }}><i className="text-3xl text-gray-400 ri-arrow-down-s-line"></i></h5>
 
-            <h2 className="text-2xl font-semibold mb-4">Confirm this ride to start</h2>
+            <h2 className="text-2xl font-semibold mb-4">Finish this ride</h2>
 
             <div className="flex items-center justify-between mt-3 p-3 bg-gray-200 rounded-xl">
                 <div className="flex items-center gap-3 text-lg font-medium">
@@ -52,24 +43,16 @@ const ConfirmRidePopup = (props) => {
                 </div>
 
                 <div className="mt-6 w-full">
-                    <form onSubmit={(e)=>{
-                        submitHandler(e)
-                    }}>
-                        <input value={otp} onChange={(e)=>{
-                          setOtp(e.target.value)
-                        }} type="text" placeholder="Enter OTP" className="bg-[#eeeeee] px-4 py-4 text-lg font-mono rounded-lg w-full mt-3" />
-                        <Link to={'/captain-riding'} className="w-full text-lg mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg" >Confirm Ride</Link>
 
-                    <button onClick={() => {
-                        props.setConfirmRidePopupPanel(false)
-                        props.setRidePopupPanel(false)
-                    }} className="w-full text-lg mt-1 bg-red-700 font-semibold p-3 rounded-lg text-white" >Cancel Ride</button>
-                    </form>
+
+                    <Link to={'/captain-home'} className="w-full mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg" >Finish this ride</Link>
+
+                    <p className="text-xs mx-2">click on finish ride if you have completed the payment</p>
                 </div>
-
+              
             </div>
         </div>
     )
 }
 
-export default ConfirmRidePopup
+export default FinishRide
