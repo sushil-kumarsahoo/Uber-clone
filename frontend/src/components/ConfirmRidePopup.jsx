@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 
 const ConfirmRidePopup = (props) => {
   return (
@@ -43,13 +43,12 @@ const ConfirmRidePopup = (props) => {
           </div>
         </div>
 
-        <button onClick={() => {
-        }} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg" >Confirm Ride</button>
+        <Link to={'/captain-riding'} className="w-full mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg" >Confirm Ride</Link>
 
         <button onClick={() => {
             props.setConfirmRidePopupPanel(false)
             props.setRidePopupPanel(false)
-        }} className="w-full mt-1 bg-red-700 font-semibold p-2 rounded-lg text-white" >Cancel Ride</button>
+        }} className="w-full mt-1 bg-red-700 font-semibold p-3 rounded-lg text-white" >Cancel Ride</button>
       </div>
     </div>
   )
